@@ -1,0 +1,29 @@
+{
+    "name": "avoo/qcm-public-bundle",
+    "description": "QCM Public bundle for Symfony2",
+    "type": "symfony-bundle",
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jérémy Jégou",
+            "email": "jejeavo@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Qcm\\Bundle\\PublicBundle\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}
