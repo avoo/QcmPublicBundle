@@ -1,0 +1,12 @@
+qcm_core:
+    driver: doctrine/orm
+    user_class: Qcm\Bundle\PublicBundle\Entity\User
+    classes:
+        security:
+            model: Qcm\Bundle\PublicBundle\Entity\User
+        user:
+            model: Qcm\Bundle\PublicBundle\Entity\User
+        category:
+            model: Qcm\Bundle\PublicBundle\Entity\Category
+        question:
+            model: Qcm\Bundle\PublicBundle\Entity\Question

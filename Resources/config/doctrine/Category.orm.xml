@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                  http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Qcm\Bundle\PublicBundle\Entity\Category" table="category">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <one-to-many field="questions" target-entity="Qcm\Bundle\PublicBundle\Entity\Question" mapped-by="category">
+            <cascade><cascade-all/></cascade>
+        </one-to-many>
+    </entity>
+
+</doctrine-mapping>

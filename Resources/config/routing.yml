@@ -1,0 +1,4 @@
+qcm_public_homepage:
+    pattern: /
+    defaults:
+        _controller: "qcm_core.controller.question:indexAction"
