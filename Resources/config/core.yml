@@ -10,3 +10,5 @@ qcm_core:
             model: Qcm\Bundle\PublicBundle\Entity\Category
         question:
             model: Qcm\Bundle\PublicBundle\Entity\Question
+        answer:
+            model: Qcm\Bundle\PublicBundle\Entity\Answer
