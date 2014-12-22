@@ -9,6 +9,10 @@
             <generator strategy="AUTO"/>
         </id>
 
+        <one-to-many field="answers" target-entity="Qcm\Bundle\PublicBundle\Entity\Answer" mapped-by="question">
+            <cascade><cascade-all/></cascade>
+        </one-to-many>
+
         <many-to-one target-entity="Qcm\Bundle\PublicBundle\Entity\Category" field="category" inversed-by="questions">
             <join-column name="category_id" nullable="false" />
         </many-to-one>
