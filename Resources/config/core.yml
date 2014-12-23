@@ -12,3 +12,7 @@ qcm_core:
             model: Qcm\Bundle\PublicBundle\Entity\Question
         answer:
             model: Qcm\Bundle\PublicBundle\Entity\Answer
+
+twig:
+    globals:
+        qcm_configuration: "@qcm.configuration"
