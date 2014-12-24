@@ -6,6 +6,8 @@ qcm_core:
             model: Qcm\Bundle\PublicBundle\Entity\User
         user:
             model: Qcm\Bundle\PublicBundle\Entity\User
+        user_session:
+            model: Qcm\Bundle\PublicBundle\Entity\UserSession
         category:
             model: Qcm\Bundle\PublicBundle\Entity\Category
         question:
