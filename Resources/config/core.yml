@@ -1,3 +1,6 @@
+imports:
+    - { resource: @QcmCoreBundle/Resources/config/core.yml }
+
 qcm_core:
     driver: doctrine/orm
     user_class: Qcm\Bundle\PublicBundle\Entity\User
