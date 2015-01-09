@@ -12,7 +12,7 @@ class Question extends BaseQuestion
     /**
      * @var integer $id
      */
-    protected $id;
+    public $id;
 
     /**
      * Get id
