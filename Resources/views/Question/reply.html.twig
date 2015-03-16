@@ -1,0 +1,27 @@
+{% extends 'QcmPublicBundle::layout.html.twig' %}
+
+{% block content %}
+    {{ question.name }}
+
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/shCore.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/brush/shBrushAS3.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/brush/shBrushCss.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/brush/shBrushJScript.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/brush/shBrushPowerShell.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/brush/shBrushPhp.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/brush/shBrushSql.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/brush/shBrushXml.js') }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SyntaxHighlighter.config.clipboardSwf = '{{ asset('bundles/qcmadmin/js/clipboard.swf') }}';
+            SyntaxHighlighter.defaults.toolbar = false;
+            SyntaxHighlighter.all();
+        });
+    </script>
+{% endblock %}

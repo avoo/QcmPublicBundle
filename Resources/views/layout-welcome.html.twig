@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>{% block title %}{% endblock %}</title>
+        {% block meta %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/dashboard.css') }}" />
+        {% endblock %}
+    </head>
+    <body>
+        {% import 'QcmCoreBundle:Macros:actions.html.twig' as actions %}
+        {% block container %}
+            <div class="container">
+                {% block flashMessages %}
+                    {% for type, messages in app.session.flashbag.all() %}
+                        {% for key, message in messages %}
+                            <div class="alert bg-{{ type }} fade in">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <p class="text-center">{{ message|trans }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endblock %}
+                <div class="row">
+                    {% block titlePage %}{% endblock %}
+                    {% block content %}{% endblock %}
+                    {% block footer %}{% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/jquery-2.1.1.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/bootstrap.min.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

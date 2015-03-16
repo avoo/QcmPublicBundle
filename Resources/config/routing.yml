@@ -1,4 +1,11 @@
 qcm_public_homepage:
     pattern: /
     defaults:
-        _controller: "qcm_core.controller.question:indexAction"
+        _controller: "QcmPublicBundle:Home:index"
+        _sylius:
+            template: QcmPublicBundle:Question:index.html.twig
+            method: getQuestionnaires
+
+qcm_public_question_resource:
+    prefix: /questionnaire
+    resource: @QcmPublicBundle/Resources/config/routing/question.yml

@@ -1,0 +1,49 @@
+{% extends 'QcmPublicBundle::layout-welcome.html.twig' %}
+
+{% block content %}
+    <div class="col-md-offset-2 col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">{{ 'qcm_public.homepage_text'|trans }}</div>
+
+            <div class="panel-body">
+                {% if questionnaires|length == 0 %}
+                    <div class="text-muted text-center">{{ 'qcm_public.empty.questionnaire'|trans }}</div>
+                {% elseif questionnaires|length == 1 %}
+                    {% for questionnaire in questionnaires %}
+                        {{ 'qcm_public.questionnaires.begin_start'|trans({
+                            '%categories%' : categories[questionnaire.id]|join(', '),
+                            '%timeout%': (questionnaire.configuration.timeout/60)
+                        })|raw }}
+
+                        <div class="span7 text-center">
+                            {{ actions.add(path('qcm_public_question_start', { id: questionnaire.id}), 'qcm_public.button.start'|trans, false) }}
+                            {{ actions.cancel(path('qcm_core_security_logout'), 'qcm_public.button.logout'|trans, 'glyphicon-log-out') }}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h4>{{ 'qcm_public.questionnaires.list'|trans }}</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>{{ 'qcm_public.questionnaires.title'|trans }}</th>
+                                <th>{{ 'qcm_public.questionnaires.timeout'|trans }}</th>
+                                <th>{{ 'qcm_public.questionnaires.max_questions'|trans }}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for questionnaire in questionnaires %}
+                                <tr>
+                                    <td>Questionnaire n {{ loop.index }}</td>
+                                    <td>{{ questionnaire.configuration.timeout/60 }} minutes</td>
+                                    <td>{{ questionnaire.configuration.questions|length }}</td>
+                                    <td>{{ actions.add('test') }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+qcm_public_question_reply:
+    pattern: /{id}
+    defaults:
+        _controller: QcmPublicBundle:Questionnaire:reply
+        id: 1
+
+qcm_public_question_start:
+    pattern: /start/{id}
+    defaults:
+        _controller: QcmPublicBundle:Questionnaire:start
+
