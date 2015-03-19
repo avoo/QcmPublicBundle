@@ -1,0 +1,15 @@
+{% extends 'QcmPublicBundle::layout-welcome.html.twig' %}
+
+{% block content %}
+    <div class="col-md-offset-2 col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">{{ 'qcm_public.questionnaire.summary.title'|trans }}</div>
+
+            <div class="panel-body text-center">
+                <div class="span7 text-center">
+                    {{ actions.cancel(path('qcm_core_security_logout'), 'qcm_public.button.end'|trans, 'glyphicon-log-out') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

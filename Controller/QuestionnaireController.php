@@ -1,9 +1,10 @@
 <?php
 namespace Qcm\Bundle\PublicBundle\Controller;
 
-use Qcm\Bundle\CoreBundle\Form\Type\ReplyFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -38,7 +39,7 @@ class QuestionnaireController extends Controller
     /**
      * Question reply action
      *
-     * @return RedirectResponse
+     * @return Response
      */
     public function replyAction()
     {
@@ -52,12 +53,65 @@ class QuestionnaireController extends Controller
 
         $question = $questionInteract->getQuestion();
         $formType = $this->get('qcm_core.form.type.reply');
-        var_dump($formType);die;
-        $form = $this->createForm(new ReplyFormType($question), $questionInteract->getQuestionnaireConfiguration());
+        $form = $this->createForm($formType, $questionInteract->getUserConfiguration());
 
         return $this->render('QcmPublicBundle:Question:reply.html.twig', array(
             'question' => $question,
             'form' => $form->createView()
         ));
+    }
+
+    /**
+     * Update action
+     *
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     */
+    public function nextQuestionAction(Request $request)
+    {
+        $questionInteract = $this->get('qcm_core.question.interact');
+        $formType = $this->get('qcm_core.form.type.reply');
+        $form = $this->createForm($formType);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $questionInteract->saveStep($form);
+
+            if (false === $questionInteract->getNextQuestion()) {
+                return $this->redirect($this->generateUrl('qcm_public_question_summary'));
+            }
+        }
+
+        return $this->redirect($this->generateUrl('qcm_public_question_reply'));
+    }
+
+    /**
+     * Get previous question
+     *
+     * @return RedirectResponse
+     */
+    public function prevQuexstionAction()
+    {
+        $questionInteract = $this->get('qcm_core.question.interact');
+        $questionInteract->getPrevQuestion();
+
+        return $this->redirect($this->generateUrl('qcm_public_question_reply'));
+    }
+
+    /**
+     * @return Response
+     */
+    public function summaryAction()
+    {
+        return $this->render('QcmPublicBundle:Question:summary.html.twig');
+    }
+
+    /**
+     * @return Response
+     */
+    public function endQuestionnaireAction()
+    {
+        return $this->render('QcmPublicBundle:Question:end.html.twig');
     }
 }

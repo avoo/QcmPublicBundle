@@ -1,0 +1,64 @@
+.popover-title {
+    margin-bottom: 10px;
+}
+
+.table {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.form-horizontal .form-group.has-error {
+    margin-bottom: 0;
+}
+
+.form-horizontal input[type=checkbox] {
+    display: inline-block;
+}
+
+.form-horizontal label.control-label {
+    float: none;
+    text-align: left;
+    padding-top: 0;
+}
+
+ul.nav li.dropdown:hover > ul.dropdown-menu {
+    display: block;
+}
+
+ul.nav .open>a, ul.nav .open>a:hover {
+    border-color: #d5d5d5;
+}
+
+ul.nav .dropdown-menu {
+    margin: 0;
+    border-top-color: transparent;
+    width: 100%;
+}
+
+.syntaxhighlighter {
+    position: inherit!important;
+}
+
+label .required {
+    color: red;
+}
+
+input[type=checkbox] {
+    margin-top: 0;
+}
+
+.form-horizontal .label_row {
+    margin-top: 10px;
+    display: inline;
+}
+
+.form-horizontal label {
+    font-weight: normal;
+    cursor: pointer;
+    vertical-align: top;
+}
+
+.form-horizontal label .answer {
+    padding-top: 10px;
+    border-top: 1px solid #EEEEEE;
+}

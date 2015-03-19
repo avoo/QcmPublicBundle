@@ -4,4 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <services>
+        <service id="kernel.listener.questionnaire" class="Qcm\Bundle\PublicBundle\Listener\QuestionnaireListener">
+            <argument type="service" id="qcm_core.question.interact" />
+            <argument type="service" id="router" />
+            <argument type="service" id="security.context" />
+            <argument type="service" id="kernel" />
+            <tag name="kernel.event_listener" event="kernel.request" method="questionnaireCheck" />
+        </service>
+    </services>
 </container>

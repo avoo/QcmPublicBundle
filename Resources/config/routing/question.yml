@@ -1,11 +1,31 @@
-qcm_public_question_reply:
-    pattern: /{id}
-    defaults:
-        _controller: QcmPublicBundle:Questionnaire:reply
-        id: 1
-
 qcm_public_question_start:
     pattern: /start/{id}
     defaults:
         _controller: QcmPublicBundle:Questionnaire:start
 
+qcm_public_question_reply:
+    pattern: /
+    defaults:
+        _controller: QcmPublicBundle:Questionnaire:reply
+
+qcm_public_question_next:
+    pattern: /next
+    defaults:
+        _controller: QcmPublicBundle:Questionnaire:nextQuestion
+    requirements:
+        _method:  POST
+
+qcm_public_question_prev:
+    pattern: /prev
+    defaults:
+        _controller: QcmPublicBundle:Questionnaire:prevQuexstion
+
+qcm_public_question_summary:
+    pattern: /summary
+    defaults:
+        _controller: QcmPublicBundle:Questionnaire:summary
+
+qcm_public_question_end:
+    pattern: /end
+    defaults:
+        _controller: QcmPublicBundle:Questionnaire:endQuestionnaire

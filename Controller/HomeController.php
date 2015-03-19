@@ -20,6 +20,11 @@ class HomeController extends Controller
         $manager = $this->getDoctrine()->getManager();
         $questionnaires = array();
         $categories = array();
+        $questionInteract = $this->get('qcm_core.question.interact');
+
+        if ($questionInteract->isStarted()) {
+            return $this->redirect($this->generateUrl('qcm_public_question_reply'));
+        }
 
         if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $user = $this->getUser();

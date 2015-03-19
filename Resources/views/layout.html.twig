@@ -7,33 +7,38 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/bootstrap.min.css') }}" />
             <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/dashboard.css') }}" />
+            <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/shCore.css') }}" />
+            <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/shThemeDefault.css') }}" />
+            <link rel="stylesheet" href="{{ asset('bundles/qcmpublic/css/public.css') }}" />
         {% endblock %}
     </head>
     <body>
         {% import 'QcmCoreBundle:Macros:actions.html.twig' as actions %}
+
+        {% if form is defined %}
+            {% form_theme form '@QcmPublic/forms.html.twig' %}
+        {% endif %}
+
         {% block container %}
             {% block nav %}
                 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" href="#">Project name</a>
+                            <a class="navbar-brand" href="javascript:void(0);">Shiva communication</a>
                         </div>
                         <div id="navbar" class="navbar-collapse collapse">
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#">Dashboard</a></li>
-                                <li><a href="#">Settings</a></li>
-                                <li><a href="#">Profile</a></li>
-                                <li><a href="#">Help</a></li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div id="countdown">
+                                            <strong>{{ 'qcm_public.timeleft'|trans }}</strong> :
+                                            <span id="countdown_hour">--</span> {{ 'qcm_public.hours'|trans }}
+                                            <span id="countdown_min" >--</span> {{ 'qcm_public.minutes'|trans }}
+                                            <span id="countdown_sec" >--</span> {{ 'qcm_public.seconds'|trans }}
+                                        </div>
+                                    </a>
+                                </li>
                             </ul>
-                            <form class="navbar-form navbar-right">
-                                <input type="text" class="form-control" placeholder="Search...">
-                            </form>
                         </div>
                     </div>
                 </nav>
@@ -42,17 +47,20 @@
                 <div class="row">
                 {% block leftSidebar %}
                     <div class="col-sm-3 col-md-2 sidebar">
-                        <ul class="nav nav-sidebar">
-                            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-                            <li><a href="#">Reports</a></li>
-                            <li><a href="#">Analytics</a></li>
-                            <li><a href="#">Export</a></li>
-                        </ul>
+                        <h4>{% block category %}{% endblock %}</h4>
+
+                        {% set questions = app.session.get('configuration').questions|length %}
+                        {% set percent = app.session.get('question') * 100 / questions %}
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ questions }}000" style="width: {{ percent }}%; color: #000000;">
+                                {{ app.session.get('question') }}/{{ questions }}
+                            </div>
+                        </div>
                     </div>
                 {% endblock %}
                 {% block rightSidebar %}
                     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                        {% block titlePage %}{% endblock %}
                         {% block content %}{% endblock %}
                     </div>
                 {% endblock %}
@@ -63,6 +71,7 @@
         {% block javascripts %}
             <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/jquery-2.1.1.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/bootstrap.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/qcmpublic/js/common.js') }}"></script>
         {% endblock %}
     </body>
 </html>

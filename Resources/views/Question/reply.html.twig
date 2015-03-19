@@ -1,9 +1,18 @@
 {% extends 'QcmPublicBundle::layout.html.twig' %}
 
-{% block content %}
-    {{ question.name }}
+{% block category %}
+    {{ 'qcm_public.questionnaire.category'|trans({'%name%': question.category.name}) }}
+{% endblock %}
 
-    {{ form_widget(form) }}
+{% block content %}
+    <h2>{{ question.name }}</h2>
+
+    <form class="form-horizontal col-sm-12" novalidate action="{{ path('qcm_public_question_next') }}" {{ form_enctype(form) }} method="POST">
+        {{ form_widget(form) }}
+
+        {{ actions.show(path('qcm_public_question_prev'), 'qcm_core.button.prev'|trans, 'glyphicon-arrow-left') }}
+        {{ actions.submit('qcm_core.button.next'|trans, 'btn-success', 'glyphicon-arrow-right') }}
+    </form>
 {% endblock %}
 
 {% block javascripts %}
@@ -19,7 +28,7 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            SyntaxHighlighter.config.clipboardSwf = '{{ asset('bundles/qcmadmin/js/clipboard.swf') }}';
+            SyntaxHighlighter.config.clipboardSwf = '{{ asset('bundles/qcmcore/js/clipboard.swf') }}';
             SyntaxHighlighter.defaults.toolbar = false;
             SyntaxHighlighter.all();
         });
