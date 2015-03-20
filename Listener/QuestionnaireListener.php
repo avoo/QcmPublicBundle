@@ -71,32 +71,38 @@ class QuestionnaireListener
             return;
         }
 
-        if (!is_null($this->securityContext->getToken()) &&
-            $this->securityContext->isGranted('IS_AUTHENTICATED_FULLY') &&
-            !$this->questionInteract->isStarted()
-        ) {
-            $this->questionInteract->getQuestionnaireStarted($this->securityContext->getToken()->getUser());
-
-            $url = $this->router->generate('qcm_public_question_reply');
-            $response = new RedirectResponse($url);
-            $event->setResponse($response);
-
-            return $response;
-        }
-
         if ($this->questionInteract->isStarted()) {
             $configuration = $this->questionInteract->getUserConfiguration();
 
             /** @var \DateTime $startDate */
-            $startDate = $configuration['startAt'];
+            $startDate = clone $configuration['startAt'];
+
             $now = new \DateTime();
             $startDate->add(new \DateInterval('PT' . $configuration['timeout'] . 'S'));
 
             if ($startDate < $now) {
                 $this->questionInteract->endQuestionnaire($now);
+                $response = new RedirectResponse($this->router->generate(self::END_REDIRECT));
+                $event->setResponse($response);
 
-                $url = $this->router->generate(self::END_REDIRECT);
-                $response = new RedirectResponse($url);
+                return $response;
+            }
+        } else {
+            if (!is_null($this->securityContext->getToken()) &&
+                $this->securityContext->isGranted('IS_AUTHENTICATED_FULLY')
+            ) {
+                $this->questionInteract->getQuestionnaireStarted($this->securityContext->getToken()->getUser());
+            }
+
+            if ($this->questionInteract->isStarted()) {
+                $configuration = $this->questionInteract->getUserConfiguration();
+                $url = 'qcm_public_question_reply';
+
+                if (count($configuration['questions']) - count($configuration['answers']) == 0) {
+                    $url = 'qcm_public_question_summary';
+                }
+
+                $response = new RedirectResponse($this->router->generate($url));
                 $event->setResponse($response);
 
                 return $response;

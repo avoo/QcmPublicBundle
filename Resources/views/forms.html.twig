@@ -31,7 +31,16 @@
         {% if 'file' == type %}
             <span class="btn-primary btn-lg file-overlay"><i class="icon-folder-open"></i> {{ 'qcm_admin.label.choose_file'|trans }}</span>
         {% endif %}
-        {{ parent() }}
+
+        {% if 'text' == type %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ parent() }}
+                </div>
+            </div>
+        {% else %}
+            {{ parent() }}
+        {% endif %}
     {% endspaceless %}
 {% endblock form_widget_simple %}
 

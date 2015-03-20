@@ -11,7 +11,13 @@ qcm_public:
     empty:
         questionnaire: Aucun questionnaire disponible pour le moment
     questionnaires:
+        questionnaire: |
+            Questionnaire n°%number%<br />
+            Categories: <b>%categories%</b>
         list: Liste des questionnaires
+        title: Questionnaires
+        timeout: Durée
+        max_questions: Questions
         begin_start: |
             <p>Le questionnaire suivant porte sur les categories <b>%categories%</b>.<br />
             La durée du test est de <b>%timeout% minutes</b>.<br />
@@ -22,6 +28,9 @@ qcm_public:
         not_started: Le questionnaire n'a pas démarré
         already_completed: Le questionnaire est déja complété
         category: Question sur "%name%"
+        question: Question numéro %number%
+        summary:
+            title: Récapitulatif
         end:
             title: Fin du questionnaire
             content: |

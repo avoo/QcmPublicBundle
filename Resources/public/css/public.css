@@ -55,7 +55,9 @@ input[type=checkbox] {
 .form-horizontal label {
     font-weight: normal;
     cursor: pointer;
-    vertical-align: top;
+    line-height: 25px;
+    padding-left: 0;
+    display: inline;
 }
 
 .form-horizontal label .answer {

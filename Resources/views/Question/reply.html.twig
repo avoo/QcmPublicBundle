@@ -5,13 +5,27 @@
 {% endblock %}
 
 {% block content %}
+    {% set questions = app.session.get('configuration').questions|length %}
+    {% set answers = app.session.get('configuration').answers|length %}
+
     <h2>{{ question.name }}</h2>
 
     <form class="form-horizontal col-sm-12" novalidate action="{{ path('qcm_public_question_next') }}" {{ form_enctype(form) }} method="POST">
-        {{ form_widget(form) }}
+        {{ form_widget(form.answers) }}
 
-        {{ actions.show(path('qcm_public_question_prev'), 'qcm_core.button.prev'|trans, 'glyphicon-arrow-left') }}
-        {{ actions.submit('qcm_core.button.next'|trans, 'btn-success', 'glyphicon-arrow-right') }}
+        {% if questions - answers > 0 %}
+            {{ actions.show(path('qcm_public_question_prev'), 'qcm_core.button.prev'|trans, 'glyphicon-arrow-left') }}
+            {{ actions.submit('qcm_core.button.next'|trans, 'btn-primary', 'glyphicon-arrow-right') }}
+            <span class="pull-right">
+                {{ form_widget(form.flag) }}
+                {{ form_label(form.flag) }}
+            </span>
+        {% else %}
+            {{ actions.show(path('qcm_public_question_summary'), 'qcm_core.button.summary'|trans, 'glyphicon-th-list') }}
+            {{ actions.submit('qcm_core.button.update'|trans, 'btn-primary', 'glyphicon-pencil') }}
+        {% endif %}
+
+        {{ form_rest(form) }}
     </form>
 {% endblock %}
 

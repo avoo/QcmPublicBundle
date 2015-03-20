@@ -1,15 +1,25 @@
-{% extends 'QcmPublicBundle::layout-welcome.html.twig' %}
+{% extends 'QcmPublicBundle::layout.html.twig' %}
 
 {% block content %}
-    <div class="col-md-offset-2 col-md-8">
-        <div class="panel panel-default">
-            <div class="panel-heading text-center">{{ 'qcm_public.questionnaire.summary.title'|trans }}</div>
+    <div class="panel-heading text-center">{{ 'qcm_public.questionnaire.summary.title'|trans }}</div>
 
-            <div class="panel-body text-center">
-                <div class="span7 text-center">
-                    {{ actions.cancel(path('qcm_core_security_logout'), 'qcm_public.button.end'|trans, 'glyphicon-log-out') }}
-                </div>
-            </div>
+    <div class="panel-body text-center">
+        <div class="list-group">
+        {% for answer in answers %}
+            {% set class = 'success' %}
+            {% if answer.flag is not empty and answer.flag != false %}
+                {% set class = 'warning' %}
+            {% endif %}
+            <a href="{{ path('qcm_public_question_specific', { id: loop.index }) }}" class="list-group-item list-group-item-{{ class }}" style="margin-top: 5px;">
+                {{ 'qcm_public.questionnaire.question'|trans({ '%number%': loop.index }) }}
+            </a>
+        {% endfor %}
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="span7 text-center">
+            {{ actions.cancel(path('qcm_public_question_end'), 'qcm_core.button.end'|trans, 'glyphicon-log-out') }}
         </div>
     </div>
 {% endblock %}

@@ -26,20 +26,6 @@
                         <div class="navbar-header">
                             <a class="navbar-brand" href="javascript:void(0);">Shiva communication</a>
                         </div>
-                        <div id="navbar" class="navbar-collapse collapse">
-                            <ul class="nav navbar-nav navbar-right">
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <div id="countdown">
-                                            <strong>{{ 'qcm_public.timeleft'|trans }}</strong> :
-                                            <span id="countdown_hour">--</span> {{ 'qcm_public.hours'|trans }}
-                                            <span id="countdown_min" >--</span> {{ 'qcm_public.minutes'|trans }}
-                                            <span id="countdown_sec" >--</span> {{ 'qcm_public.seconds'|trans }}
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </nav>
             {% endblock %}
@@ -47,16 +33,28 @@
                 <div class="row">
                 {% block leftSidebar %}
                     <div class="col-sm-3 col-md-2 sidebar">
-                        <h4>{% block category %}{% endblock %}</h4>
 
                         {% set questions = app.session.get('configuration').questions|length %}
                         {% set percent = app.session.get('question') * 100 / questions %}
 
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ questions }}000" style="width: {{ percent }}%; color: #000000;">
-                                {{ app.session.get('question') }}/{{ questions }}
-                            </div>
-                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <h4>{% block category %}{% endblock %}</h4>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ questions }}000" style="width: {{ percent }}%; color: #000000;">
+                                        {{ app.session.get('question') }}/{{ questions }}
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div id="countdown">
+                                    <div><strong>{{ 'qcm_public.timeleft'|trans }}</strong> :</div>
+                                    <span id="countdown_hour">--</span> {{ 'qcm_public.hours'|trans }}
+                                    <span id="countdown_min" >--</span> {{ 'qcm_public.minutes'|trans }}
+                                    <span id="countdown_sec" >--</span> {{ 'qcm_public.seconds'|trans }}
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 {% endblock %}
                 {% block rightSidebar %}
@@ -72,6 +70,13 @@
             <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/jquery-2.1.1.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/bootstrap.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/qcmpublic/js/common.js') }}"></script>
+            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    countdownManager.init('{{ app.session.get('configuration').startAt.date }}', {{ app.session.get('configuration').timeout }});
+                });
+            </script>
         {% endblock %}
     </body>
 </html>

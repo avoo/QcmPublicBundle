@@ -20,6 +20,11 @@ qcm_public_question_prev:
     defaults:
         _controller: QcmPublicBundle:Questionnaire:prevQuexstion
 
+qcm_public_question_specific:
+    pattern: /question/{id}
+    defaults:
+        _controller: QcmPublicBundle:Questionnaire:specificQuestion
+
 qcm_public_question_summary:
     pattern: /summary
     defaults:
@@ -29,3 +34,5 @@ qcm_public_question_end:
     pattern: /end
     defaults:
         _controller: QcmPublicBundle:Questionnaire:endQuestionnaire
+    options:
+        expose: true

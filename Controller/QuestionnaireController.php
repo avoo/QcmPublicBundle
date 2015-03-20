@@ -77,8 +77,11 @@ class QuestionnaireController extends Controller
 
         if ($form->isValid()) {
             $questionInteract->saveStep($form);
+            $configuration = $questionInteract->getUserConfiguration();
 
-            if (false === $questionInteract->getNextQuestion()) {
+            if ((count($configuration['questions']) - count($configuration['answers']) == 0) ||
+                false === $questionInteract->getNextQuestion()
+            ) {
                 return $this->redirect($this->generateUrl('qcm_public_question_summary'));
             }
         }
@@ -100,11 +103,35 @@ class QuestionnaireController extends Controller
     }
 
     /**
+     * Get specific question
+     *
+     * @param Request $request
+     *
+     * @return RedirectResponse
+     */
+    public function specificQuestionAction(Request $request)
+    {
+        $questionInteract = $this->get('qcm_core.question.interact');
+
+        if (false === $questionInteract->getSpecificQuestion($request->get('id'))) {
+            throw new NotFoundHttpException('Question not found.');
+        }
+
+        return $this->redirect($this->generateUrl('qcm_public_question_reply'));
+    }
+
+    /**
      * @return Response
      */
     public function summaryAction()
     {
-        return $this->render('QcmPublicBundle:Question:summary.html.twig');
+        $questionInteract = $this->get('qcm_core.question.interact');
+        $configuration = $questionInteract->getUserConfiguration();
+        $answers = $configuration['answers'];
+
+        return $this->render('QcmPublicBundle:Question:summary.html.twig', array(
+            'answers' => $answers
+        ));
     }
 
     /**
@@ -112,6 +139,12 @@ class QuestionnaireController extends Controller
      */
     public function endQuestionnaireAction()
     {
+        $questionInteract = $this->get('qcm_core.question.interact');
+
+        if ($questionInteract->isStarted()) {
+            $questionInteract->endQuestionnaire(new \DateTime());
+        }
+
         return $this->render('QcmPublicBundle:Question:end.html.twig');
     }
 }

@@ -1,6 +1,6 @@
 var countdownManager = {
     // Configuration
-    targetTime: new Date('2016-11-05 00:00:00'), // Date cible du compte à rebours (00:00:00)
+    targetTime: null, // Date cible du compte à rebours (00:00:00)
     displayElement: { // Elements HTML où sont affichés les informations
         day: null,
         hour: null,
@@ -9,7 +9,9 @@ var countdownManager = {
     },
 
     // Initialisation du compte à rebours (à appeler 1 fois au chargement de la page)
-    init: function () {
+    init: function (date, timeout) {
+        this.targetTime = new Date(date);
+        this.targetTime.setSeconds(this.targetTime.getSeconds() + timeout);
         // Récupération des références vers les éléments pour l'affichage
         // La référence n'est récupérée qu'une seule fois à l'initialisation pour optimiser les performances
         this.displayElement.day = jQuery('#countdown_day');
@@ -30,6 +32,7 @@ var countdownManager = {
         // On s'assure que le temps restant ne soit jamais négatif (ce qui est le cas dans le futur de targetTime)
         if (timeNow > this.targetTime) {
             timeNow = this.targetTime;
+            window.location.href = Routing.generate('qcm_public_question_end');
         }
 
         // Calcul du temps restant
@@ -58,7 +61,3 @@ var countdownManager = {
         return diff;
     }
 };
-
-$(document).ready(function() {
-    countdownManager.init();
-});

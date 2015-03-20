@@ -34,7 +34,13 @@ class HomeController extends Controller
         $categoryRepository = $this->getDoctrine()->getRepository('QcmPublicBundle:Category');
 
         /** @var UserSessionInterface $questionnaire */
-        foreach ($questionnaires as $questionnaire) {
+        foreach ($questionnaires as $key => &$questionnaire) {
+            $configuration = $questionnaire->getConfiguration();
+            if (!empty($configuration['endAt'])) {
+                unset($questionnaires[$key]);
+                continue;
+            }
+
             $categories[$questionnaire->getId()] = $categoryRepository->getCategoryByUserSession($questionnaire);
         }
 
