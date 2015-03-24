@@ -9,7 +9,7 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <many-to-one target-entity="Qcm\Bundle\PublicBundle\Entity\User" field="user">
+        <many-to-one target-entity="Qcm\Bundle\PublicBundle\Entity\User" field="user" inversed-by="questionnaires">
             <join-column name="user_id" nullable="false" />
         </many-to-one>
     </entity>

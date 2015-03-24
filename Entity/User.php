@@ -2,6 +2,7 @@
 
 namespace Qcm\Bundle\PublicBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Qcm\Bundle\CoreBundle\Entity\User as BaseUser;
 
 /**
@@ -15,6 +16,11 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var ArrayCollection $questionnaires
+     */
+    protected $questionnaires;
+
+    /**
      * Get id
      *
      * @return integer
@@ -22,5 +28,15 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get Questionnaires list
+     *
+     * @return ArrayCollection
+     */
+    public function getQuestionnaires()
+    {
+        return $this->questionnaires;
     }
 }

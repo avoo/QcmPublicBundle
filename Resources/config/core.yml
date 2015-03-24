@@ -11,6 +11,8 @@ qcm_core:
             model: Qcm\Bundle\PublicBundle\Entity\User
         user_session:
             model: Qcm\Bundle\PublicBundle\Entity\UserSession
+        user_session_configuration:
+            model: Qcm\Bundle\PublicBundle\Entity\UserSessionConfiguration
         category:
             model: Qcm\Bundle\PublicBundle\Entity\Category
         question:

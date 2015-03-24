@@ -19,6 +19,10 @@ class QuestionnaireController extends Controller
      */
     public function startAction()
     {
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('qcm_admin_user_list'));
+        }
+
         $user = $this->getUser();
         $manager = $this->getDoctrine()->getManager();
         $userSession = $manager->getRepository('QcmPublicBundle:UserSession')->findOneBy(array(

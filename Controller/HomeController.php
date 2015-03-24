@@ -1,7 +1,6 @@
 <?php
 namespace Qcm\Bundle\PublicBundle\Controller;
 
-use Qcm\Component\User\Model\UserSessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,6 +20,10 @@ class HomeController extends Controller
         $questionnaires = array();
         $categories = array();
         $questionInteract = $this->get('qcm_core.question.interact');
+
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('qcm_admin_user_list'));
+        }
 
         if ($questionInteract->isStarted()) {
             return $this->redirect($this->generateUrl('qcm_public_question_reply'));
