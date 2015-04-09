@@ -3,7 +3,8 @@
     "description": "QCM Public bundle for Symfony2",
     "type": "symfony-bundle",
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.3.3",
+        "friendsofsymfony/jsrouting-bundle": "~1.5"
     },
     "require-dev": {
         "phpunit/phpunit": "*"
