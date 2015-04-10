@@ -8,11 +8,19 @@
             <div class="panel-body">
                 {% if questionnaires|length == 0 %}
                     <div class="text-muted text-center">{{ 'qcm_public.empty.questionnaire'|trans }}</div>
+                    <div class="span7 text-center">
+                        {{ actions.cancel(path('qcm_core_security_logout'), 'qcm_public.button.logout'|trans, 'glyphicon-log-out') }}
+                    </div>
                 {% elseif questionnaires|length == 1 %}
                     {% for questionnaire in questionnaires %}
+                        {% if questionnaire.configuration.timeout is null %}
+                            {% set timeout = 'qcm_core.label.time_per_question'|trans ~ ': ' ~ questionnaire.configuration.timePerQuestion %}
+                        {% else %}
+                            {% set timeout = 'qcm_core.label.timeout'|trans ~ ': ' ~ (questionnaire.configuration.timeout/60)|round %}
+                        {% endif %}
                         {{ 'qcm_public.questionnaires.begin_start'|trans({
                             '%categories%' : categories[questionnaire.id]|join(', '),
-                            '%timeout%': (questionnaire.configuration.timeout/60)
+                            '%timeout%': timeout
                         })|raw }}
 
                         <div class="span7 text-center">
@@ -40,7 +48,12 @@
                                             '%number%': loop.index
                                         })|raw }}
                                     </td>
-                                    <td>{{ questionnaire.configuration.timeout/60 }} minutes</td>
+                                    <td>
+                                        {% if questionnaire.configuration.timeout is null %}
+                                            {{ 'qcm_core.label.time_per_question'|trans }}: <b>{{ questionnaire.configuration.timePerQuestion }}</b> {{ 'qcm_core.user_session.seconds'|trans }}
+                                        {% else %}
+                                            {{ 'qcm_core.label.timeout'|trans }}: <b>{{ (questionnaire.configuration.timeout/60)|round }}</b> {{ 'qcm_core.user_session.minutes'|trans }}
+                                        {% endif %}
                                     <td>{{ questionnaire.configuration.questions|length }}</td>
                                     <td>{{ actions.add(path('qcm_public_question_start', { id: questionnaire.id}), 'qcm_public.button.start'|trans, false) }}</td>
                                 </tr>

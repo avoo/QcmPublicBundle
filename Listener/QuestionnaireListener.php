@@ -2,6 +2,7 @@
 namespace Qcm\Bundle\PublicBundle\Listener;
 
 use Qcm\Bundle\CoreBundle\Question\QuestionInteract;
+use Qcm\Component\User\Model\SessionConfigurationInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -72,20 +73,24 @@ class QuestionnaireListener
         }
 
         if ($this->questionInteract->isStarted()) {
+            /** @var SessionConfigurationInterface $configuration */
             $configuration = $this->questionInteract->getUserConfiguration();
 
             /** @var \DateTime $startDate */
-            $startDate = clone $configuration['startAt'];
+            $startDate = clone $configuration->getStartAt();
 
             $now = new \DateTime();
-            $startDate->add(new \DateInterval('PT' . $configuration['timeout'] . 'S'));
 
-            if ($startDate < $now) {
-                $this->questionInteract->endQuestionnaire($now);
-                $response = new RedirectResponse($this->router->generate(self::END_REDIRECT));
-                $event->setResponse($response);
+            if (!is_null($configuration->getTimeout())) {
+                $startDate->add(new \DateInterval('PT' . $configuration->getTimeout() . 'S'));
 
-                return $response;
+                if ($startDate < $now) {
+                    $this->questionInteract->endQuestionnaire($now);
+                    $response = new RedirectResponse($this->router->generate(self::END_REDIRECT));
+                    $event->setResponse($response);
+
+                    return $response;
+                }
             }
         } else {
             if (!is_null($this->securityContext->getToken()) &&
@@ -95,10 +100,11 @@ class QuestionnaireListener
             }
 
             if ($this->questionInteract->isStarted()) {
+                /** @var SessionConfigurationInterface $configuration */
                 $configuration = $this->questionInteract->getUserConfiguration();
                 $url = 'qcm_public_question_reply';
 
-                if (count($configuration['questions']) - count($configuration['answers']) == 0) {
+                if ($configuration->getQuestions()->count() - count($configuration->getAnswers()) == 0) {
                     $url = 'qcm_public_question_summary';
                 }
 

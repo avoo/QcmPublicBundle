@@ -34,7 +34,7 @@
                 {% block leftSidebar %}
                     <div class="col-sm-3 col-md-2 sidebar">
 
-                        {% set questions = app.session.get('configuration').questions|length %}
+                        {% set questions = app.session.get('user_session').configuration.questions|length %}
                         {% set percent = app.session.get('question') * 100 / questions %}
 
                         <ul class="list-group">
@@ -74,7 +74,7 @@
             <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
             <script type="text/javascript">
                 $(document).ready(function() {
-                    countdownManager.init('{{ app.session.get('configuration').startAt.date }}', {{ app.session.get('configuration').timeout }});
+                    countdownManager.init('{{ app.session.get('user_session').configuration.startAt.date }}', {{ app.session.get('user_session').configuration.timeout }});
                 });
             </script>
         {% endblock %}

@@ -83,7 +83,7 @@ class QuestionnaireController extends Controller
             $questionInteract->saveStep($form);
             $configuration = $questionInteract->getUserConfiguration();
 
-            if ((count($configuration['questions']) - count($configuration['answers']) == 0) ||
+            if ($configuration->getQuestions()->count() - $configuration->getAnswers()->count() == 0 ||
                 false === $questionInteract->getNextQuestion()
             ) {
                 return $this->redirect($this->generateUrl('qcm_public_question_summary'));
@@ -131,7 +131,7 @@ class QuestionnaireController extends Controller
     {
         $questionInteract = $this->get('qcm_core.question.interact');
         $configuration = $questionInteract->getUserConfiguration();
-        $answers = $configuration['answers'];
+        $answers = $configuration->getAnswers();
 
         return $this->render('QcmPublicBundle:Question:summary.html.twig', array(
             'answers' => $answers

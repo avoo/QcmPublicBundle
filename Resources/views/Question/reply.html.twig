@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block content %}
-    {% set questions = app.session.get('configuration').questions|length %}
-    {% set answers = app.session.get('configuration').answers|length %}
+    {% set questions = app.session.get('user_session').configuration.questions|length %}
+    {% set answers = app.session.get('user_session').configuration.answers|length %}
 
     <h2>{{ question.name }}</h2>
 

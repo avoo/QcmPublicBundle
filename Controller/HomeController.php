@@ -1,6 +1,8 @@
 <?php
 namespace Qcm\Bundle\PublicBundle\Controller;
 
+use Qcm\Bundle\CoreBundle\Doctrine\ORM\CategoryRepository;
+use Qcm\Component\User\Model\UserSessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,12 +36,13 @@ class HomeController extends Controller
             $questionnaires = $manager->getRepository('QcmPublicBundle:UserSession')->getQuestionnairesByUser($user);
         }
 
+        /** @var CategoryRepository $categoryRepository */
         $categoryRepository = $this->getDoctrine()->getRepository('QcmPublicBundle:Category');
 
         /** @var UserSessionInterface $questionnaire */
         foreach ($questionnaires as $key => &$questionnaire) {
             $configuration = $questionnaire->getConfiguration();
-            if (!empty($configuration['endAt'])) {
+            if (!is_null($configuration->getEndAt())) {
                 unset($questionnaires[$key]);
                 continue;
             }
