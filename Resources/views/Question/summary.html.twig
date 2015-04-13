@@ -7,8 +7,10 @@
         <div class="list-group">
         {% for key, answer in answers %}
             {% set class = 'success' %}
-            {% if answer.flag is not empty and answer.flag != false %}
+            {% if answer.flag is defined and answer.flag != false %}
                 {% set class = 'warning' %}
+            {% elseif app.session.get('user_session').configuration.answers.get(key) is not defined or app.session.get('user_session').configuration.answers.get(key) is empty %}
+                {% set class = 'danger' %}
             {% endif %}
             <a href="{{ path('qcm_public_question_specific', { id: key }) }}" class="list-group-item list-group-item-{{ class }}" style="margin-top: 5px;">
                 {{ 'qcm_public.questionnaire.question'|trans({ '%number%': loop.index }) }}

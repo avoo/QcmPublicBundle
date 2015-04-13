@@ -35,14 +35,14 @@
                     <div class="col-sm-3 col-md-2 sidebar">
 
                         {% set questions = app.session.get('user_session').configuration.questions|length %}
-                        {% set percent = app.session.get('question') * 100 / questions %}
+                        {% set percent = app.session.get('user_session').configuration.answers|length * 100 / questions %}
 
                         <ul class="list-group">
                             <li class="list-group-item">
                                 <h4>{% block category %}{% endblock %}</h4>
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="{{ questions }}000" style="width: {{ percent }}%; color: #000000;">
-                                        {{ app.session.get('question') }}/{{ questions }}
+                                        {{ app.session.get('user_session').configuration.answers|length }}/{{ questions }}
                                     </div>
                                 </div>
                             </li>
@@ -73,8 +73,16 @@
             <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
             <script type="text/javascript">
+                {% set startDate = app.session.get('user_session').configuration.startAt.date %}
+                {% set timeout = app.session.get('user_session').configuration.timeout %}
+
+                {% if timeout is null %}
+                    {% set startDate = app.session.get('question_timeout').date %}
+                    {% set timeout = app.session.get('user_session').configuration.timePerQuestion %}
+                {% endif %}
+
                 $(document).ready(function() {
-                    countdownManager.init('{{ app.session.get('user_session').configuration.startAt.date }}', {{ app.session.get('user_session').configuration.timeout }});
+                    countdownManager.init('{{ startDate }}', {{ timeout }});
                 });
             </script>
         {% endblock %}

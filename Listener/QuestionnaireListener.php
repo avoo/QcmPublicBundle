@@ -10,6 +10,7 @@ use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Class QuestionnaireListener
@@ -76,20 +77,32 @@ class QuestionnaireListener
             /** @var SessionConfigurationInterface $configuration */
             $configuration = $this->questionInteract->getUserConfiguration();
 
-            /** @var \DateTime $startDate */
-            $startDate = clone $configuration->getStartAt();
-
+            /** @var \DateTime $date */
             $now = new \DateTime();
 
             if (!is_null($configuration->getTimeout())) {
-                $startDate->add(new \DateInterval('PT' . $configuration->getTimeout() . 'S'));
+                $date = clone $configuration->getStartAt();
+                $date->add(new \DateInterval('PT' . $configuration->getTimeout() . 'S'));
 
-                if ($startDate < $now) {
+                if ($date < $now) {
                     $this->questionInteract->endQuestionnaire($now);
                     $response = new RedirectResponse($this->router->generate(self::END_REDIRECT));
                     $event->setResponse($response);
 
                     return $response;
+                }
+            } else {
+                $date = clone $this->questionInteract->getQuestionTimeout();
+                $date->add(new \DateInterval('PT' . $configuration->getTimePerQuestion() . 'S'));
+
+                if ($date < $now) {
+                    if (false == $this->questionInteract->getNextQuestion()) {
+                        $this->questionInteract->endQuestionnaire($now);
+                        $response = new RedirectResponse($this->router->generate(self::END_REDIRECT));
+                        $event->setResponse($response);
+
+                        return $response;
+                    }
                 }
             }
         } else {

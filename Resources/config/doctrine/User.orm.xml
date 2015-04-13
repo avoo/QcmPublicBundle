@@ -11,6 +11,9 @@
 
         <one-to-many field="questionnaires" target-entity="Qcm\Bundle\PublicBundle\Entity\UserSession" mapped-by="user">
             <cascade><cascade-all/></cascade>
+            <order-by>
+                <order-by-field name="id" direction="DESC"/>
+            </order-by>
         </one-to-many>
     </entity>
 

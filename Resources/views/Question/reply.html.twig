@@ -10,19 +10,23 @@
 
     <h2>{{ question.name }}</h2>
 
-    <form class="form-horizontal col-sm-12" novalidate action="{{ path('qcm_public_question_next') }}" {{ form_enctype(form) }} method="POST">
+    <form id="reply_questionnaire" class="form-horizontal col-sm-12" novalidate action="{{ path('qcm_public_question_next') }}" {{ form_enctype(form) }} method="POST">
         {{ form_widget(form.answers) }}
 
         {% if questions - answers > 0 %}
-            {{ actions.show(path('qcm_public_question_prev'), 'qcm_core.button.prev'|trans, 'glyphicon-arrow-left') }}
-            {{ actions.submit('qcm_core.button.next'|trans, 'btn-primary', 'glyphicon-arrow-right') }}
-            <span class="pull-right">
-                {{ form_widget(form.flag) }}
-                {{ form_label(form.flag) }}
-            </span>
+            {% if app.session.get('user_session').configuration.timeout is not null %}
+                {{ actions.show(path('qcm_public_question_prev'), 'qcm_core.button.prev'|trans, 'glyphicon-arrow-left') }}
+                {{ actions.submit('qcm_core.button.next'|trans, 'btn-primary', 'glyphicon-arrow-right') }}
+                <span class="pull-right">
+                    {{ form_widget(form.flag) }}
+                    {{ form_label(form.flag) }}
+                </span>
+            {% else %}
+                {{ actions.submit('qcm_core.button.next'|trans, 'btn-primary', 'glyphicon-arrow-right') }}
+            {% endif %}
         {% else %}
             {{ actions.show(path('qcm_public_question_summary'), 'qcm_core.button.summary'|trans, 'glyphicon-th-list') }}
-            {{ actions.submit('qcm_core.button.update'|trans, 'btn-primary', 'glyphicon-pencil') }}
+            {{ actions.submit('qcm_core.button.validate'|trans, 'btn-primary', 'glyphicon-pencil') }}
         {% endif %}
 
         {{ form_rest(form) }}

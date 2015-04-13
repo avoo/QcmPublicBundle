@@ -83,10 +83,16 @@ class QuestionnaireController extends Controller
             $questionInteract->saveStep($form);
             $configuration = $questionInteract->getUserConfiguration();
 
-            if ($configuration->getQuestions()->count() - $configuration->getAnswers()->count() == 0 ||
+            if (!is_null($configuration->getTimeout()) && $configuration->getQuestions()->count() - $configuration->getAnswers()->count() == 0 ||
                 false === $questionInteract->getNextQuestion()
             ) {
-                return $this->redirect($this->generateUrl('qcm_public_question_summary'));
+                $url = 'qcm_public_question_summary';
+
+                if (!is_null($configuration->getTimePerQuestion())) {
+                    $url = 'qcm_public_question_end';
+                }
+
+                return $this->redirect($this->generateUrl($url));
             }
         }
 
@@ -130,6 +136,11 @@ class QuestionnaireController extends Controller
     public function summaryAction()
     {
         $questionInteract = $this->get('qcm_core.question.interact');
+
+        if (!$questionInteract->isStarted()) {
+            return $this->redirect($this->generateUrl('qcm_public_homepage'));
+        }
+
         $configuration = $questionInteract->getUserConfiguration();
         $answers = $configuration->getAnswers();
 

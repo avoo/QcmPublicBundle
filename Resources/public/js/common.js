@@ -32,7 +32,8 @@ var countdownManager = {
         // On s'assure que le temps restant ne soit jamais négatif (ce qui est le cas dans le futur de targetTime)
         if (timeNow > this.targetTime) {
             timeNow = this.targetTime;
-            window.location.href = Routing.generate('qcm_public_question_end');
+
+            $('#reply_questionnaire').submit();
         }
 
         // Calcul du temps restant
