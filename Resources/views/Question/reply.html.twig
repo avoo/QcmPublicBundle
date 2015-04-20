@@ -4,33 +4,41 @@
     {{ 'qcm_public.questionnaire.category'|trans({'%name%': question.category.name}) }}
 {% endblock %}
 
+{% block title %}{{ question.name }}{% endblock %}
+
 {% block content %}
     {% set questions = app.session.get('user_session').configuration.questions|length %}
     {% set answers = app.session.get('user_session').configuration.answers|length %}
 
-    <h2>{{ question.name }}</h2>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <form id="reply_questionnaire" novalidate action="{{ path('qcm_public_question_next') }}" {{ form_enctype(form) }} method="POST">
+                <div class="box-body">
+                    {{ form_widget(form.answers) }}
 
-    <form id="reply_questionnaire" class="form-horizontal col-sm-12" novalidate action="{{ path('qcm_public_question_next') }}" {{ form_enctype(form) }} method="POST">
-        {{ form_widget(form.answers) }}
+                    {% if questions - answers > 0 %}
+                        {% if app.session.get('user_session').configuration.timeout is not null %}
+                            {{ actions.show(path('qcm_public_question_prev'), 'qcm_core.button.prev'|trans, 'fa-arrow-left') }}
+                            {{ actions.submit('qcm_core.button.next'|trans, 'btn-primary', 'fa-arrow-right') }}
+                            <span class="pull-right">
+                                {{ form_widget(form.flag) }}
+                                {{ form_label(form.flag) }}
+                            </span>
+                        {% else %}
+                            {{ actions.submit('qcm_core.button.next'|trans, 'btn-primary', 'fa-arrow-right') }}
+                        {% endif %}
+                    {% else %}
+                        {{ actions.show(path('qcm_public_question_summary'), 'qcm_core.button.summary'|trans, 'fa-list') }}
+                        {{ actions.submit('qcm_core.button.validate'|trans, 'btn-primary', 'fa-pencil') }}
+                    {% endif %}
 
-        {% if questions - answers > 0 %}
-            {% if app.session.get('user_session').configuration.timeout is not null %}
-                {{ actions.show(path('qcm_public_question_prev'), 'qcm_core.button.prev'|trans, 'glyphicon-arrow-left') }}
-                {{ actions.submit('qcm_core.button.next'|trans, 'btn-primary', 'glyphicon-arrow-right') }}
-                <span class="pull-right">
-                    {{ form_widget(form.flag) }}
-                    {{ form_label(form.flag) }}
-                </span>
-            {% else %}
-                {{ actions.submit('qcm_core.button.next'|trans, 'btn-primary', 'glyphicon-arrow-right') }}
-            {% endif %}
-        {% else %}
-            {{ actions.show(path('qcm_public_question_summary'), 'qcm_core.button.summary'|trans, 'glyphicon-th-list') }}
-            {{ actions.submit('qcm_core.button.validate'|trans, 'btn-primary', 'glyphicon-pencil') }}
-        {% endif %}
-
-        {{ form_rest(form) }}
-    </form>
+                    {{ form_rest(form) }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts %}

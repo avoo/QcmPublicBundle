@@ -46,7 +46,7 @@
 
 {% block form_label %}
     {% if label is not sameas(false) -%}
-        {% set label_attr = label_attr|merge({'class': label_attr.class|default('') ~ ' col-sm-11 control-label'}) %}
+        {% set label_attr = label_attr|merge({'class': label_attr.class|default('') ~ ''}) %}
 
         {% if not compound -%}
             {% set label_attr = label_attr|merge({'for': id}) %}

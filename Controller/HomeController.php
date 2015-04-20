@@ -2,6 +2,7 @@
 namespace Qcm\Bundle\PublicBundle\Controller;
 
 use Qcm\Bundle\CoreBundle\Doctrine\ORM\CategoryRepository;
+use Qcm\Component\Category\Model\CategoryInterface;
 use Qcm\Component\User\Model\UserSessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,9 +37,6 @@ class HomeController extends Controller
             $questionnaires = $manager->getRepository('QcmPublicBundle:UserSession')->getQuestionnairesByUser($user);
         }
 
-        /** @var CategoryRepository $categoryRepository */
-        $categoryRepository = $this->getDoctrine()->getRepository('QcmPublicBundle:Category');
-
         /** @var UserSessionInterface $questionnaire */
         foreach ($questionnaires as $key => &$questionnaire) {
             $configuration = $questionnaire->getConfiguration();
@@ -47,7 +45,11 @@ class HomeController extends Controller
                 continue;
             }
 
-            $categories[$questionnaire->getId()] = $categoryRepository->getCategoryByUserSession($questionnaire);
+            $categories[$questionnaire->getId()] = array_map(function($category) {
+                /** @var CategoryInterface $category */
+
+                return $category->getName();
+            }, $questionnaire->getConfiguration()->getCategories()->toArray());
         }
 
         return $this->render('QcmPublicBundle:Home:index.html.twig', array(

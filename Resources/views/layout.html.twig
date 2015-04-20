@@ -6,34 +6,27 @@
         {% block meta %}{% endblock %}
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/bootstrap.min.css') }}" />
-            <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/dashboard.css') }}" />
             <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/shCore.css') }}" />
             <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/shThemeDefault.css') }}" />
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+            <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/AdminLTE.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/_all-skins.min.css') }}" />
             <link rel="stylesheet" href="{{ asset('bundles/qcmpublic/css/public.css') }}" />
         {% endblock %}
     </head>
-    <body>
-        {% import 'QcmCoreBundle:Macros:actions.html.twig' as actions %}
+    <body class="skin-blue">
+        <div class="wrapper">
+            {% import 'QcmCoreBundle:Macros:actions.html.twig' as actions %}
 
-        {% if form is defined %}
-            {% form_theme form '@QcmPublic/forms.html.twig' %}
-        {% endif %}
+            {% if form is defined %}
+                {% form_theme form '@QcmPublic/forms.html.twig' %}
+            {% endif %}
 
-        {% block container %}
-            {% block nav %}
-                <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <a class="navbar-brand" href="javascript:void(0);">Shiva communication</a>
-                        </div>
-                    </div>
-                </nav>
-            {% endblock %}
-            <div class="container-fluid">
-                <div class="row">
-                {% block leftSidebar %}
-                    <div class="col-sm-3 col-md-2 sidebar">
-
+            {% block container %}
+                <aside class="main-sidebar">
+                    <section class="sidebar margin">
+                    {% block leftSidebar %}
                         {% set questions = app.session.get('user_session').configuration.questions|length %}
                         {% set percent = app.session.get('user_session').configuration.answers|length * 100 / questions %}
 
@@ -55,36 +48,39 @@
                                 </div>
                             </li>
                         </ul>
-                    </div>
-                {% endblock %}
-                {% block rightSidebar %}
-                    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                    {% endblock %}
+                    </section>
+                </aside>
+                <div class="content-wrapper" style="min-height: 1068px;">
+                    <section class="content-header">
+                        <h1>{{ block('title') }}</h1>
+                    </section>
+
+                    <section class="content">
                         {% block content %}{% endblock %}
-                    </div>
-                {% endblock %}
-                {% block footer %}{% endblock %}
+                    </section>
                 </div>
-            </div>
-        {% endblock %}
-        {% block javascripts %}
-            <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/jquery-2.1.1.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/bootstrap.min.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('bundles/qcmpublic/js/common.js') }}"></script>
-            <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-            <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-            <script type="text/javascript">
-                {% set startDate = app.session.get('user_session').configuration.startAt.date %}
-                {% set timeout = app.session.get('user_session').configuration.timeout %}
+            {% endblock %}
+            {% block javascripts %}
+                <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/jquery-2.1.1.min.js') }}"></script>
+                <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/bootstrap.min.js') }}"></script>
+                <script type="text/javascript" src="{{ asset('bundles/qcmpublic/js/common.js') }}"></script>
+                <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+                <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+                <script type="text/javascript">
+                    {% set startDate = app.session.get('user_session').configuration.startAt.date %}
+                    {% set timeout = app.session.get('user_session').configuration.timeout %}
 
-                {% if timeout is null %}
-                    {% set startDate = app.session.get('question_timeout').date %}
-                    {% set timeout = app.session.get('user_session').configuration.timePerQuestion %}
-                {% endif %}
+                    {% if timeout is null %}
+                        {% set startDate = app.session.get('question_timeout').date %}
+                        {% set timeout = app.session.get('user_session').configuration.timePerQuestion %}
+                    {% endif %}
 
-                $(document).ready(function() {
-                    countdownManager.init('{{ startDate }}', {{ timeout }});
-                });
-            </script>
-        {% endblock %}
+                    $(document).ready(function() {
+                        countdownManager.init('{{ startDate }}', {{ timeout }});
+                    });
+                </script>
+            {% endblock %}
+        </div>
     </body>
 </html>

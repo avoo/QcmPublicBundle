@@ -7,15 +7,15 @@
     margin-bottom: 10px;
 }
 
-.form-horizontal .form-group.has-error {
+.form-group.has-error {
     margin-bottom: 0;
 }
 
-.form-horizontal input[type=checkbox] {
+input[type=checkbox] {
     display: inline-block;
 }
 
-.form-horizontal label.control-label {
+label.control-label {
     float: none;
     text-align: left;
     padding-top: 0;
@@ -39,20 +39,16 @@ ul.nav .dropdown-menu {
     position: inherit!important;
 }
 
-label .required {
-    color: red;
-}
-
 input[type=checkbox] {
     margin-top: 0;
 }
 
-.form-horizontal .label_row {
+.label_row {
     margin-top: 10px;
     display: inline;
 }
 
-.form-horizontal label {
+label {
     font-weight: normal;
     cursor: pointer;
     line-height: 25px;
@@ -60,7 +56,7 @@ input[type=checkbox] {
     display: inline;
 }
 
-.form-horizontal label .answer {
+label .answer {
     padding-top: 10px;
     border-top: 1px solid #EEEEEE;
 }

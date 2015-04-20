@@ -6,24 +6,27 @@
         {% block meta %}{% endblock %}
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/bootstrap.min.css') }}" />
-            <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/dashboard.css') }}" />
+            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+            <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+            <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/AdminLTE.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('bundles/qcmcore/css/_all-skins.min.css') }}" />
         {% endblock %}
     </head>
-    <body>
+    <body class="register-page">
         {% import 'QcmCoreBundle:Macros:actions.html.twig' as actions %}
         {% block container %}
-            <div class="container">
-                {% block flashMessages %}
-                    {% for type, messages in app.session.flashbag.all() %}
-                        {% for key, message in messages %}
-                            <div class="alert bg-{{ type }} fade in">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                <p class="text-center">{{ message|trans }}</p>
-                            </div>
+            <div class="register-box" style="width: 800px;">
+                <div class="register-box-body">
+                    {% block flashMessages %}
+                        {% for type, messages in app.session.flashbag.all() %}
+                            {% for key, message in messages %}
+                                <div class="alert bg-{{ type }} fade in">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <p class="text-center">{{ message|trans }}</p>
+                                </div>
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
-                {% endblock %}
-                <div class="row">
+                    {% endblock %}
                     {% block titlePage %}{% endblock %}
                     {% block content %}{% endblock %}
                     {% block footer %}{% endblock %}

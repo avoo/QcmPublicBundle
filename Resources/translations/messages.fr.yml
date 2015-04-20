@@ -1,10 +1,10 @@
 qcm_public:
-    hours: heures
-    minutes: minutes
-    seconds: secondes
+    hours: Heures
+    minutes: Min
+    seconds: Sec
     timeleft: Temps restant
     homepage_text: |
-        Bienvenue sur le test technique Shiva Communication
+        Bienvenue sur le test technique %website_name%
     button:
         start: Démarrer
         logout: Déconnexion
@@ -12,18 +12,18 @@ qcm_public:
         questionnaire: Aucun questionnaire disponible pour le moment
     questionnaires:
         questionnaire: |
-            Questionnaire n°%number%<br />
-            Categories: <b>%categories%</b>
+            Questionnaire n°%number%
         list: Liste des questionnaires
         title: Questionnaires
         timeout: Durée
         max_questions: Questions
+        categories: Catégories
         begin_start: |
             <p>Le questionnaire suivant porte sur les categories <b>%categories%</b>.<br />
             <b>%timeout% minutes</b>.<br />
             Vous pouvez passer une question et revenir sur celle-ci plus tard tant que le temps n'est pas dépassé.<br />
             Une fois le test démarré, il est impossible d'annuler ou suspendre celui-ci.<br /><br />
-            L'équipe Shiva vous souhaite bonne chance!</p>
+            L'équipe %website_name% vous souhaite bonne chance!</p>
     questionnaire:
         not_started: Le questionnaire n'a pas démarré
         already_completed: Le questionnaire est déja complété

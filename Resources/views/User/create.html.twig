@@ -1,8 +1,0 @@
-{% extends '@QcmCore/layout.html.twig' %}
-
-{% block body %}
-    <form novalidate class="form-horizontal col-sm-12 text-center" novalidate action="{{ path("qcm_admin_user_add") }}" method="post">
-        {{ form_widget(form) }}
-        {{ actions.submit() }}
-    </form>
-{% endblock %}
