@@ -6,7 +6,7 @@
     {% if questionnaires|length == 0 %}
         <div class="text-muted text-center">{{ 'qcm_public.empty.questionnaire'|trans }}</div>
         <div class="span7 text-center">
-            {{ actions.cancel(path('qcm_core_security_logout'), 'qcm_public.button.logout'|trans, 'glyphicon-log-out') }}
+            {{ actions.cancel(path('qcm_core_security_logout'), 'qcm_public.button.logout'|trans, 'fa-sign-out') }}
         </div>
     {% elseif questionnaires|length == 1 %}
         {% for questionnaire in questionnaires %}

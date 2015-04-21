@@ -7,9 +7,10 @@
         <div class="list-group">
         {% for key, answer in answers %}
             {% set class = 'success' %}
+            {% set userAnswers = [] %}
             {% if app.session.get('user_session').configuration.answers.get(key) is not defined or
                 (app.session.get('user_session').configuration.answers.get(key)|length == 0 and app.session.get('user_session').configuration.answers.get(key)['flag'] is not defined) or
-            (app.session.get('user_session').configuration.answers.get(key)|length <= 1 and app.session.get('user_session').configuration.answers.get(key)['flag'] is defined)
+                (app.session.get('user_session').configuration.answers.get(key)|length <= 1 and app.session.get('user_session').configuration.answers.get(key)['flag'] is defined)
             %}
                 {% set class = 'danger' %}
             {% elseif answer.flag is defined and answer.flag != false %}

@@ -7,8 +7,6 @@ qcm_public_question_reply:
     pattern: /
     defaults:
         _controller: QcmPublicBundle:Questionnaire:reply
-    options:
-        expose: true
 
 qcm_public_question_next:
     pattern: /next

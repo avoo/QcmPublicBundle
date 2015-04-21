@@ -65,8 +65,6 @@
                 <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/jquery-2.1.1.min.js') }}"></script>
                 <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/bootstrap.min.js') }}"></script>
                 <script type="text/javascript" src="{{ asset('bundles/qcmpublic/js/common.js') }}"></script>
-                <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-                <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
                 <script type="text/javascript">
                     {% set startDate = app.session.get('user_session').configuration.startAt.date %}
                     {% set timeout = app.session.get('user_session').configuration.timeout %}
