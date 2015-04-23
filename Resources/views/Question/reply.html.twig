@@ -4,7 +4,7 @@
     {{ 'qcm_public.questionnaire.category'|trans({'%name%': question.category.name}) }}
 {% endblock %}
 
-{% block title %}{{ question.name }}{% endblock %}
+{% block title %}{{ question.name|raw }}{% endblock %}
 
 {% block content %}
     {% set questions = app.session.get('user_session').configuration.questions|length %}
