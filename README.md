@@ -11,13 +11,13 @@ The public bundle is based on [`QcmCoreBundle`](https://github.com/avoo/QcmCoreB
 Installation
 ------------
 
-Require [`avoo/qcm-core-bundle`](https://packagist.org/packages/avoo/qcm-core-bundle)
+Require [`avoo/qcm-public-bundle`](https://packagist.org/packages/avoo/qcm-public-bundle)
 into your `composer.json` file:
 
 ``` json
 {
     "require": {
-        "avoo/qcm-core-bundle": "@dev-master"
+        "avoo/qcm-public-bundle": "@dev-master"
     }
 }
 ```
