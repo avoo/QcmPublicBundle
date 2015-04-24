@@ -31,7 +31,7 @@ public function registerBundles()
     return array(
         // ...
         new Qcm\Bundle\CoreBundle\QcmCoreBundle(),
-        new Qcm\Bundle\CoreBundle\QcmPublicBundle(),
+        new Qcm\Bundle\PublicBundle\QcmPublicBundle(),
     );
 }
 ```
