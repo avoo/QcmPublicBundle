@@ -10,7 +10,7 @@
         </id>
 
         <many-to-one target-entity="Qcm\Bundle\PublicBundle\Entity\Question" field="question" inversed-by="answers">
-            <join-column name="question_id" nullable="false" />
+            <join-column name="question_id" nullable="false" referenced-column-name="id" />
         </many-to-one>
     </entity>
 
