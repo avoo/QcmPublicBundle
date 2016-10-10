@@ -10,6 +10,7 @@
             <argument type="service" id="router" />
             <argument type="service" id="security.context" />
             <argument type="service" id="kernel" />
+            <argument type="service" id="request_stack" />
             <tag name="kernel.event_listener" event="kernel.request" method="questionnaireCheck" />
         </service>
     </services>

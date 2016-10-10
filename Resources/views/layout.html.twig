@@ -65,6 +65,7 @@
                 <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/jquery-2.1.1.min.js') }}"></script>
                 <script type="text/javascript" src="{{ asset('bundles/qcmcore/js/bootstrap.min.js') }}"></script>
                 <script type="text/javascript" src="{{ asset('bundles/qcmpublic/js/common.js') }}"></script>
+                <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
                 <script type="text/javascript">
                     {% set startDate = app.session.get('user_session').configuration.startAt.date %}
                     {% set timeout = app.session.get('user_session').configuration.timeout %}
@@ -75,7 +76,7 @@
                     {% endif %}
 
                     $(document).ready(function() {
-                        countdownManager.init('{{ startDate }}', {{ timeout }});
+                        countdownManager.init('{{ startDate }}', {{ timeout }}, '{{ url('qcm_public_question_end') }}');
                     });
                 </script>
             {% endblock %}

@@ -1,6 +1,7 @@
 var countdownManager = {
     // Configuration
     targetTime: null,
+    redirect: null,
     displayElement: {
         day: null,
         hour: null,
@@ -8,9 +9,10 @@ var countdownManager = {
         sec: null
     },
 
-    init: function (date, timeout) {
+    init: function (date, timeout, redirect) {
         this.targetTime = new Date(date);
         this.targetTime.setSeconds(this.targetTime.getSeconds() + timeout);
+        this.redirect = redirect;
         this.displayElement.day = jQuery('#countdown_day');
         this.displayElement.hour = jQuery('#countdown_hour');
         this.displayElement.min = jQuery('#countdown_min');
@@ -22,11 +24,10 @@ var countdownManager = {
 
     tick: function () {
         var timeNow = new Date();
-
         if (timeNow > this.targetTime) {
             timeNow = this.targetTime;
 
-            $('#reply_questionnaire').submit();
+            window.location.href = this.redirect;
         }
 
         var diff = this.dateDiff(timeNow, this.targetTime);

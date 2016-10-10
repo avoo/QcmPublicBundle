@@ -9,3 +9,6 @@ qcm_public_homepage:
 qcm_public_question_resource:
     prefix: /questionnaire
     resource: @QcmPublicBundle/Resources/config/routing/question.yml
+
+_bazinga_jstranslation:
+    resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"

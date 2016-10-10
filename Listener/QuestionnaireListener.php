@@ -4,6 +4,8 @@ namespace Qcm\Bundle\PublicBundle\Listener;
 use Qcm\Bundle\CoreBundle\Question\QuestionInteract;
 use Qcm\Component\User\Model\SessionConfigurationInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernel;
@@ -40,22 +42,30 @@ class QuestionnaireListener
     private $kernel;
 
     /**
+     * @var null|Request $request
+     */
+    private $request;
+
+    /**
      * Construct
      *
      * @param QuestionInteract         $questionInteract
      * @param RouterInterface          $router
      * @param SecurityContextInterface $securityContext
      * @param KernelInterface          $kernel
+     * @param RequestStack             $requestStack
      */
     public function __construct(QuestionInteract $questionInteract,
         RouterInterface $router,
         SecurityContextInterface $securityContext,
-        KernelInterface $kernel)
+        KernelInterface $kernel,
+        RequestStack $requestStack)
     {
         $this->questionInteract = $questionInteract;
         $this->router = $router;
         $this->securityContext = $securityContext;
         $this->kernel = $kernel;
+        $this->request = $requestStack->getCurrentRequest();
     }
 
     /**
@@ -68,17 +78,18 @@ class QuestionnaireListener
     public function questionnaireCheck(GetResponseEvent $event)
     {
         if (HttpKernel::MASTER_REQUEST != $event->getRequestType() ||
-            ($event->getRequest()->request && 'html' !== $event->getRequest()->getRequestFormat())
+            ($event->getRequest()->request && 'html' !== $event->getRequest()->getRequestFormat()) ||
+            in_array($this->request->get('_route'), array('qcm_public_question_end', 'qcm_public_homepage'))
         ) {
             return;
         }
 
+        /** @var \DateTime $date */
+        $now = new \DateTime();
+
         if ($this->questionInteract->isStarted()) {
             /** @var SessionConfigurationInterface $configuration */
             $configuration = $this->questionInteract->getUserConfiguration();
-
-            /** @var \DateTime $date */
-            $now = new \DateTime();
 
             if (!is_null($configuration->getTimeout())) {
                 $date = clone $configuration->getStartAt();
